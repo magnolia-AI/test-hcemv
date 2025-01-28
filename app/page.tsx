@@ -8,7 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { useToast } from "@/hooks/use-toast"
+import { useState } from 'react'
 const formSchema = z.object({
   name: z.string().min(2, "Namnet måste vara minst 2 tecken"),
   email: z.string().email("Ogiltig e-postadress"),
@@ -16,8 +16,8 @@ const formSchema = z.object({
   message: z.string().min(10, "Meddelandet måste vara minst 10 tecken")
 })
 export default function Home() {
-  const { toast } = useToast()
-  const form = useForm<z.infer<typeof formSchema>>({
+  const [isSubmitted, setIsSubmitted] = useState(false)
+    const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -27,10 +27,8 @@ export default function Home() {
     },
   })
   function onSubmit(values: z.infer<typeof formSchema>) {
-    toast({
-      title: "Meddelande skickat",
-      description: "Vi återkommer till dig så snart som möjligt.",
-    })
+    console.log(values)
+    setIsSubmitted(true)
     form.reset()
   }
   return (
@@ -126,71 +124,78 @@ export default function Home() {
                 Fyll i formuläret nedan för att boka en kostnadsfri konsultation eller ställa frågor om våra produkter.
               </p>
             </div>
-                        <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {isSubmitted ? (
+              <div className="text-center p-6 bg-green-50 rounded-lg">
+                <h3 className="text-green-800 font-semibold text-lg mb-2">Tack för ditt meddelande!</h3>
+                <p className="text-green-700">Vi återkommer till dig så snart som möjligt.</p>
+              </div>
+            ) : (
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Namn</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Ditt namn" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                                        <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>E-post</FormLabel>
+                          <FormControl>
+                            <Input placeholder="din@email.se" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                   <FormField
                     control={form.control}
-                    name="name"
+                    name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Namn</FormLabel>
+                        <FormLabel>Telefon</FormLabel>
                         <FormControl>
-                          <Input placeholder="Ditt namn" {...field} />
+                          <Input placeholder="Ditt telefonnummer" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                                    <FormField
+                  <FormField
                     control={form.control}
-                    name="email"
+                    name="message"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>E-post</FormLabel>
+                        <FormLabel>Meddelande</FormLabel>
                         <FormControl>
-                          <Input placeholder="din@email.se" {...field} />
+                          <Textarea 
+                            placeholder="Skriv ditt meddelande här..." 
+                            className="min-h-[120px]"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                </div>
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Telefon</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ditt telefonnummer" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Meddelande</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Skriv ditt meddelande här..." 
-                          className="min-h-[120px]"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
-                  Skicka meddelande
-                </Button>
-              </form>
-            </Form>
+                  <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+                    Skicka meddelande
+                  </Button>
+                </form>
+              </Form>
+            )}
           </div>
         </div>
       </section>
