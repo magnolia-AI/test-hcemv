@@ -8,7 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 const formSchema = z.object({
   name: z.string().min(2, "Namnet måste vara minst 2 tecken"),
   email: z.string().email("Ogiltig e-postadress"),
