@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { useState } from 'react'
+import { Header } from '@/components/header'
 const formSchema = z.object({
   name: z.string().min(2, "Namnet måste vara minst 2 tecken"),
   email: z.string().email("Ogiltig e-postadress"),
@@ -33,7 +34,8 @@ export default function Home() {
   }
   return (
     <main className="min-h-screen bg-background">
-      {/* Hero Section */}
+      <Header />
+            {/* Hero Section */}
       <section className="relative bg-gradient-to-b from-blue-50 to-white">
         <div className="container mx-auto px-4 pt-32 pb-24">
           <div className="max-w-[800px] mx-auto text-center">
@@ -51,8 +53,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* Rest of the existing content... */}
       {/* Stats Section */}
-      <section className="py-12 bg-white border-y">
+      <section className="py-12 bg-white border-y" id="tjanster">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
@@ -75,7 +78,7 @@ export default function Home() {
         </div>
       </section>
       {/* Features Section */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-gray-50" id="produkter">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">Varför välja våra vattenfilter?</h2>
@@ -115,7 +118,7 @@ export default function Home() {
         </div>
       </section>
       {/* Contact Form Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white" id="kontakt">
         <div className="container mx-auto px-4">
           <div className="max-w-[800px] mx-auto">
             <div className="text-center mb-12">
@@ -200,7 +203,7 @@ export default function Home() {
         </div>
       </section>
       {/* Footer */}
-      <footer className="bg-gray-900 text-white">
+      <footer className="bg-gray-900 text-white" id="om-oss">
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
@@ -236,7 +239,7 @@ export default function Home() {
           </div>
           <div className="text-center mt-12 pt-8 border-t border-gray-800">
             <p className="text-gray-400">
-              © 2024 Vattenfilter AB. Alla rättigheter förbehållna.
+              © 2024 PureWater AB. Alla rättigheter förbehållna.
             </p>
           </div>
         </div>
